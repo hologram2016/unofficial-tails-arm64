@@ -15,6 +15,10 @@ remaps Debian and Tor mirrors to the upstream archives so debootstrap can
 fetch arm64 packages. Offline website generation uses **ikiwiki from Forky
 only** (`pin-ikiwiki-forky.sh`). Do not skip the website.
 
+On the `arm64` branch, GRUB defaults to **External Hard Disk**
+(`livenonremovable`) because QEMU/UTM virtio disks are not removable.
+The official `live-media=removable` entries stay on the menu.
+
 ## Layout
 
 | Script | Where it runs | Role |
