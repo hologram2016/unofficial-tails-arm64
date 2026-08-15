@@ -57,7 +57,7 @@ So:
 | VM-kernel snapshot on `arm64` | `95923f7` — NoisyCoil `7.6.2/arm64` |
 | Upstream (NoisyCoil) | https://gitlab.tails.boum.org/noisycoil/tails |
 | Official Tails | https://gitlab.tails.boum.org/tails/tails |
-| This GitHub repo | https://github.com/hologram2016/tails-asahi |
+| This GitHub repo | https://github.com/hologram2016/unofficial-tails-arm64 |
 
 History here is a **shallow / orphan snapshot**, not a clone of the entire
 Tails git history. Do not expect every upstream tag or merge commit.
@@ -65,7 +65,7 @@ Tails git history. Do not expect every upstream tag or merge commit.
 ### Remotes
 
 ```text
-origin    https://github.com/hologram2016/tails-asahi.git
+origin    https://github.com/hologram2016/unofficial-tails-arm64.git
 upstream  https://gitlab.tails.boum.org/noisycoil/tails.git
 ```
 
@@ -94,7 +94,7 @@ lessons live in the builder scripts, not as a claim that the image is
 - SSH **private** keys
 - Absolute home directories of any one Mac
 
-Builder scripts take `TAILS_ASAHI_WORK` (default `$HOME/tails-asahi-work`).
+Builder scripts take `TAILS_ARM64_WORK` (default `$HOME/tails-arm64-work`).
 Someone else’s clone does **not** need the original machine’s paths.
 
 `builder/cloud-init/user-data` contains an **SSH public** key used to log
@@ -128,8 +128,8 @@ output.
 
 Release asset names (stable for the helper):
 
-- `tails-asahi-unofficial-7.6.2-arm64.iso`
-- `tails-asahi-unofficial-7.6.2-arm64.img`
+- `unofficial-tails-arm64-7.6.2.iso`
+- `unofficial-tails-arm64-7.6.2.img`
 - `SHA256SUMS`
 
 ## Verified so far (and not verified)

@@ -14,7 +14,7 @@
 #   builder/download-image.sh --tag unofficial-7.6.2-arm64.1
 set -euo pipefail
 
-REPO="${TAILS_ASAHI_REPO:-hologram2016/tails-asahi}"
+REPO="${TAILS_ARM64_REPO:-hologram2016/unofficial-tails-arm64}"
 WANT_ISO=1
 WANT_IMG=0
 OUTDIR="."
@@ -53,8 +53,8 @@ patterns=()
 patterns+=("SHA256SUMS")
 
 names=()
-[ "$WANT_ISO" = 1 ] && names+=("tails-asahi-unofficial-7.6.2-arm64.iso")
-[ "$WANT_IMG" = 1 ] && names+=("tails-asahi-unofficial-7.6.2-arm64.img")
+[ "$WANT_ISO" = 1 ] && names+=("unofficial-tails-arm64-7.6.2.iso")
+[ "$WANT_IMG" = 1 ] && names+=("unofficial-tails-arm64-7.6.2.img")
 names+=("SHA256SUMS")
 
 if have_gh; then

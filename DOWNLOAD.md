@@ -12,36 +12,36 @@ directory or builder paths.
 ## curl (no GitHub login)
 
 ```sh
-curl -fL -O https://github.com/hologram2016/tails-asahi/releases/latest/download/tails-asahi-unofficial-7.6.2-arm64.iso
-curl -fL -O https://github.com/hologram2016/tails-asahi/releases/latest/download/SHA256SUMS
+curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/unofficial-tails-arm64-7.6.2.iso
+curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/SHA256SUMS
 shasum -a 256 -c SHA256SUMS
 ```
 
 USB-style disk image (optional):
 
 ```sh
-curl -fL -O https://github.com/hologram2016/tails-asahi/releases/latest/download/tails-asahi-unofficial-7.6.2-arm64.img
+curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/unofficial-tails-arm64-7.6.2.img
 ```
 
 ## Helper script
 
 ```sh
-git clone https://github.com/hologram2016/tails-asahi.git
-cd tails-asahi
+git clone https://github.com/hologram2016/unofficial-tails-arm64.git
+cd unofficial-tails-arm64
 ./builder/download-image.sh           # ISO
 ./builder/download-image.sh --img     # USB-style .img
 ./builder/download-image.sh --both --dir "$HOME/Downloads"
 ```
 
-`gh release download -R hologram2016/tails-asahi --latest` also works if
+`gh release download -R hologram2016/unofficial-tails-arm64 --latest` also works if
 you have GitHub CLI.
 
 ## What you get
 
 | Asset | Use |
 |-------|-----|
-| `tails-asahi-unofficial-7.6.2-arm64.iso` | Attach as a CD in UTM / QEMU |
-| `tails-asahi-unofficial-7.6.2-arm64.img` | Attach as a virtio / USB disk |
+| `unofficial-tails-arm64-7.6.2.iso` | Attach as a CD in UTM / QEMU |
+| `unofficial-tails-arm64-7.6.2.img` | Attach as a virtio / USB disk |
 | `SHA256SUMS` | Check the download |
 
 GRUB **defaults to External Hard Disk** (no `live-media=removable`).

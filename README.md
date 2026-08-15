@@ -8,7 +8,7 @@ It will **not** protect you the way official Tails does.
 | Want this | Use that |
 |-----------|----------|
 | Real Tails (amnesia USB, audited, amd64) | [tails.net](https://tails.net/) on an Intel/AMD PC or Intel Mac |
-| Unofficial **VM** image for Apple Silicon (QEMU / UTM) | This repo’s [Releases](https://github.com/hologram2016/tails-asahi/releases) |
+| Unofficial **VM** image for Apple Silicon (QEMU / UTM) | This repo’s [Releases](https://github.com/hologram2016/unofficial-tails-arm64/releases) |
 | Native live USB / amnesia on an M-series Mac | **Not available here.** See [FORK.md](FORK.md#apple-silicon-live-usb) |
 
 A downloaded ISO or `.img` does **not** contain anyone’s home directory or
@@ -19,7 +19,7 @@ machine’s disk layout.
 
 - A working GitHub copy of [NoisyCoil’s unofficial arm64 / Asahi Tails port](https://gitlab.tails.boum.org/noisycoil/tails) (version **7.6.2**).
 - Extra **builder scripts** so we can produce a **generic arm64 UEFI** image and run it in **QEMU/HVF** or **UTM** on Apple Silicon.
-- A published **unofficial** ISO and USB-style `.img` on [GitHub Releases](https://github.com/hologram2016/tails-asahi/releases).
+- A published **unofficial** ISO and USB-style `.img` on [GitHub Releases](https://github.com/hologram2016/unofficial-tails-arm64/releases).
 
 Two source lines live here:
 
@@ -45,16 +45,16 @@ breaks the Tails amnesia model. This project does not install that stub.
 
 ```sh
 # ISO (attach as a CD in UTM / QEMU)
-curl -fL -O https://github.com/hologram2016/tails-asahi/releases/latest/download/tails-asahi-unofficial-7.6.2-arm64.iso
-curl -fL -O https://github.com/hologram2016/tails-asahi/releases/latest/download/SHA256SUMS
+curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/unofficial-tails-arm64-7.6.2.iso
+curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/SHA256SUMS
 shasum -a 256 -c SHA256SUMS
 ```
 
 Or clone and run the helper (ISO by default):
 
 ```sh
-git clone https://github.com/hologram2016/tails-asahi.git
-cd tails-asahi
+git clone https://github.com/hologram2016/unofficial-tails-arm64.git
+cd unofficial-tails-arm64
 ./builder/download-image.sh                 # ISO
 ./builder/download-image.sh --img           # USB-style disk image
 ./builder/download-image.sh --both --dir "$HOME/Downloads"
@@ -94,9 +94,9 @@ start VMs from SSH/agent sessions). They:
 - run native `lb config` / `lb build` (including the offline website)
 - can turn a finished ISO into a GPT/FAT USB `.img`
 
-Host paths are **environment variables** (`TAILS_ASAHI_WORK`,
-`$HOME/tails-asahi-work` by default). They are not hardcoded to one Mac.
-Local ntfy topics stay in a gitignored env file.
+Host paths are **environment variables** (`TAILS_ARM64_WORK`,
+`$HOME/tails-arm64-work` by default). They are not hardcoded to one Mac.
+Optional ntfy topics stay in a local env file, not in git.
 
 Rebuilds are large and slow. Most people should use the Release assets.
 

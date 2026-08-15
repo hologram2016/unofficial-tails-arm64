@@ -1,15 +1,15 @@
 #!/bin/bash
-# Publish unofficial ISO + .img from TAILS_ASAHI_WORK/images to GitHub Releases.
+# Publish unofficial ISO + .img from TAILS_ARM64_WORK/images to GitHub Releases.
 # Not official Tails. Does not print ntfy topics. No home paths required.
 #
-#   export TAILS_ASAHI_WORK=/path/to/workdir
+#   export TAILS_ARM64_WORK=/path/to/workdir
 #   builder/publish-release.sh unofficial-7.6.2-arm64.1
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=lib/host-env.sh
 . "${SCRIPT_DIR}/lib/host-env.sh"
 
-REPO="${TAILS_ASAHI_REPO:-hologram2016/tails-asahi}"
+REPO="${TAILS_ARM64_REPO:-hologram2016/unofficial-tails-arm64}"
 TAG="${1:?usage: publish-release.sh TAG}"
 IMGDIR="${WORK}/images"
 
@@ -39,9 +39,9 @@ def add(path: str, name: str) -> None:
     lines.append(f"{digest.hexdigest()}  {name}")
 
 
-add(iso, "tails-asahi-unofficial-7.6.2-arm64.iso")
+add(iso, "unofficial-tails-arm64-7.6.2.iso")
 if img:
-    add(img, "tails-asahi-unofficial-7.6.2-arm64.img")
+    add(img, "unofficial-tails-arm64-7.6.2.img")
 out.write_text("\n".join(lines) + "\n")
 print(out.read_text(), end="")
 PY
@@ -67,17 +67,16 @@ else
 fi
 rm -f "$notes"
 
-# Copy to short names in a temp dir. `file#name` breaks when WORK
-# contains spaces (Crucial X10).
+# Stage short names. `file#name` breaks when WORK contains spaces.
 stage="$(mktemp -d)"
 cleanup_stage() { rm -rf "$stage"; }
 trap cleanup_stage EXIT
-ln "$iso" "${stage}/tails-asahi-unofficial-7.6.2-arm64.iso" 2>/dev/null || \
-  cp "$iso" "${stage}/tails-asahi-unofficial-7.6.2-arm64.iso"
+ln "$iso" "${stage}/unofficial-tails-arm64-7.6.2.iso" 2>/dev/null || \
+  cp "$iso" "${stage}/unofficial-tails-arm64-7.6.2.iso"
 cp "$sums" "${stage}/SHA256SUMS"
 if [ -n "${img}" ]; then
-  ln "$img" "${stage}/tails-asahi-unofficial-7.6.2-arm64.img" 2>/dev/null || \
-    cp "$img" "${stage}/tails-asahi-unofficial-7.6.2-arm64.img"
+  ln "$img" "${stage}/unofficial-tails-arm64-7.6.2.img" 2>/dev/null || \
+    cp "$img" "${stage}/unofficial-tails-arm64-7.6.2.img"
 fi
 gh release upload "$TAG" -R "$REPO" --clobber "${stage}"/*
 

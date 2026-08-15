@@ -7,7 +7,7 @@ They assume:
 
 - Debian 13 arm64 cloud disk as the builder guest (6 GB RAM)
 - Source tree from this repo’s `arm64` branch (NoisyCoil `7.6.2/arm64`)
-- Host workdir on a large disk (`TAILS_ASAHI_WORK`)
+- Host workdir on a large disk (`TAILS_ARM64_WORK`)
 - Guest SSH on `127.0.0.1:2222` with `~/.ssh/id_ed25519_tails_builder`
 
 Official Tails time-based snapshots are **amd64-only**. `inside-vm-build.sh`
@@ -29,7 +29,7 @@ The official `live-media=removable` entries stay on the menu.
 | `retry-lb-build.sh` | host | Push guest script, resume detached build, re-arm ntfy |
 | `inside-vm-usb-img.sh` | guest | Official `create-usb-image-from-iso` (GPT + FAT; no syslinux on aarch64) |
 | `create-usb-img.sh` | host | Push converter, copy `tails-*.img` to `images/`, ntfy, optional stop |
-| `stop-builder.sh` | host | Graceful `poweroff` of the builder QEMU (leaves Kali UTM alone) |
+| `stop-builder.sh` | host | Graceful `poweroff` of the builder QEMU |
 | `download-image.sh` | any machine with `curl` or `gh` | Fetch the latest unofficial ISO/`.img` from GitHub Releases |
 | `pin-ikiwiki-forky.sh` | guest (root) | Official Tails Forky pin for ikiwiki |
 | `notify-watch.sh` / `send-ntfy.sh` | host | One ntfy on COMPLETE or FAILED (topic from local env, never printed) |
@@ -39,12 +39,13 @@ The official `live-media=removable` entries stay on the menu.
 ## Host environment
 
 ```sh
-export TAILS_ASAHI_WORK="$HOME/tails-asahi-work"   # or an external volume
+export TAILS_ARM64_WORK="$HOME/tails-arm64-work"   # or an external volume
 export TAILS_BUILDER_SSH_KEY="$HOME/.ssh/id_ed25519_tails_builder"
 ```
 
-`send-ntfy.sh` reads `$HOME/.config/projects-notify/ntfy.env` (`NTFY_URL`,
-`NTFY_TOPIC`). The topic must not be committed.
+`send-ntfy.sh` reads `NTFY_URL` and `NTFY_TOPIC` from a local env file
+(default `$HOME/.config/projects-notify/ntfy.env`). The topic must not
+be committed.
 
 ## Reconnect
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Host orchestrator on the Mac mini. Safe to re-run. Safe if SSH drops:
+# Host orchestrator. Safe to re-run. Safe if SSH drops:
 # launch with: nohup caffeinate -s -i this-script >>logs/setup.log 2>&1 &
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -128,8 +128,8 @@ if command -v gh >/dev/null 2>&1; then
       # reuse worktree files via rsync into an orphan repo
       rsync -a --delete --exclude .git "${SRC_HOST}/" "${TMPBR}/"
       git -C "$TMPBR" init -b arm64
-      git -C "$TMPBR" config user.name "Marina Ford"
-      git -C "$TMPBR" config user.email "77495158+hologram2016@users.noreply.github.com"
+      git -C "$TMPBR" config user.name "${GIT_AUTHOR_NAME:-$(git config --global user.name)}"
+      git -C "$TMPBR" config user.email "${GIT_AUTHOR_EMAIL:-$(git config --global user.email)}"
       cat >"${TMPBR}/FORK.md" <<'EOF'
 # Unofficial generic arm64 working snapshot
 
@@ -141,7 +141,7 @@ This `arm64` branch is the VM image: Debian `linux-image-arm64`, not `linux-imag
 EOF
       git -C "$TMPBR" add -A
       git -C "$TMPBR" commit -m "Initial snapshot of NoisyCoil Tails 7.6.2/arm64 (VM kernel)."
-      git -C "$TMPBR" remote add origin https://github.com/hologram2016/tails-asahi.git
+      git -C "$TMPBR" remote add origin "https://github.com/${TAILS_ARM64_REPO:-hologram2016/unofficial-tails-arm64}.git"
     fi
     git -C "$TMPBR" push -u origin arm64
   ) >>"${WORK}/logs/github-push.log" 2>&1 || \
@@ -360,7 +360,7 @@ cat >"${UTM_BUNDLE}/config.plist" <<EOF
 </plist>
 EOF
 
-# Register with UTM via symlink (same pattern as the existing Kali VM)
+# Register with UTM via symlink into UTM's Documents folder
 mkdir -p "$UTM_DOCS"
 ln -sfn "$UTM_BUNDLE" "${UTM_DOCS}/${VM_NAME}.utm"
 

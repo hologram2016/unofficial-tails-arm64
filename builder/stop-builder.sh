@@ -1,5 +1,5 @@
 #!/bin/bash
-# Gracefully stop the headless builder QEMU. Does not touch Kali UTM.
+# Gracefully stop the headless builder QEMU.
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=lib/host-env.sh
