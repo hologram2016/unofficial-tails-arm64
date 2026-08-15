@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# On Apple Silicon machines, by default, update-m1n1 mounts the EFI system
+# partition and updates the boot binary. A number of packages trigger
+# update-m1n1 on upgrades. Let's prevent this from happening automatically
+
+set -e
+
+echo "Divert update-m1n1"
+
+[ -e /usr/bin/update-m1n1 ] || exit 0
+
+dpkg-divert --rename --divert /usr/bin/update-m1n1.real /usr/bin/update-m1n1
+ln -s /usr/bin/true /usr/bin/update-m1n1

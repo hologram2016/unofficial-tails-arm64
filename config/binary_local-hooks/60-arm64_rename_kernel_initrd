@@ -1,0 +1,26 @@
+#! /bin/sh
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+# shellcheck disable=SC2034
+{
+    DESCRIPTION="$(Echo 'renaming kernel and initramfs (arm64)')"
+    HELP=""
+    USAGE="${PROGRAM}"
+}
+
+# Reading configuration files
+Read_conffiles config/all config/bootstrap config/common config/binary
+Set_defaults
+
+[ "${LB_ARCHITECTURE}" = arm64 ] || exit 0
+
+# Seems like we'll have work to do
+Echo_message "renaming kernel and initramfs (arm64)"
+
+mv binary/live/vmlinuz* binary/live/vmlinuz
+mv binary/live/initrd.img* binary/live/initrd.img

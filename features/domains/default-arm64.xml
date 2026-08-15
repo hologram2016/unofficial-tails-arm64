@@ -1,0 +1,51 @@
+<domain type="kvm">
+  <memory unit="KiB">3145728</memory>
+  <currentMemory unit="KiB">3145728</currentMemory>
+  <vcpu placement="static">2</vcpu>
+  <os firmware="efi">
+    <type arch="aarch64" machine="virt-7.2">hvm</type>
+    <!-- UEFI secure boot conflicts with v4l2loopback -->
+    <firmware>
+      <feature enabled="no" name="enrolled-keys"/>
+      <feature enabled="no" name="secure-boot"/>
+    </firmware>
+    <boot dev='cdrom'/>
+  </os>
+  <features>
+    <acpi/>
+    <gic version="3"/>
+  </features>
+  <cpu mode="host-passthrough" check="none"/>
+  <clock offset="utc"/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-aarch64</emulator>
+    <controller type="usb" index="0" model="qemu-xhci" />
+    <controller type="virtio-serial" index="0" />
+    <controller type="scsi" index="0" model="virtio-scsi" />
+    <interface type="network">
+      <alias name='net0'/>
+      <mac address="52:54:00:ac:dd:ee"/>
+      <source network="TailsToasterNet"/>
+      <model type="virtio"/>
+      <link state="down"/>
+    </interface>
+    <input type="keyboard" bus="usb"/>
+    <input type="tablet" bus="usb" />
+    <channel type="spicevmc">
+      <target type="virtio" name="com.redhat.spice.0"/>
+    </channel>
+    <graphics type='spice' port='-1' tlsPort='-1' autoport='yes'>
+      <clipboard copypaste='yes'/>
+      <mouse mode='client'/>
+    </graphics>
+    <sound model="ich6" />
+    <video>
+      <model type="virtio" vram="262144" heads="1" primary="yes"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x0"/>
+    </video>
+    <memballoon model="virtio" />
+  </devices>
+</domain>

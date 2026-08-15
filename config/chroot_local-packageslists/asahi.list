@@ -1,0 +1,5 @@
+#if ARCHITECTURE arm64
+asahi-platform
+asahi-platform-nvram
+mesa-vulkan-drivers
+#endif
