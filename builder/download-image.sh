@@ -4,7 +4,7 @@
 # NOT official Tails. NOT a working amnesia USB on Apple Silicon Macs.
 # For QEMU/UTM on arm64 only. GRUB defaults to External Hard Disk.
 #
-# This repo is private: you need GitHub access and usually `gh`.
+# Public GitHub Releases. Prefer curl; `gh` also works if installed.
 #
 # Usage:
 #   builder/download-image.sh              # ISO (UTM / QEMU CD)
@@ -52,6 +52,11 @@ patterns=()
 [ "$WANT_IMG" = 1 ] && patterns+=("*.img")
 patterns+=("SHA256SUMS")
 
+names=()
+[ "$WANT_ISO" = 1 ] && names+=("tails-asahi-unofficial-7.6.2-arm64.iso")
+[ "$WANT_IMG" = 1 ] && names+=("tails-asahi-unofficial-7.6.2-arm64.img")
+names+=("SHA256SUMS")
+
 if have_gh; then
   args=(release download -R "$REPO")
   [ -n "$TAG" ] && args+=("$TAG")
@@ -63,11 +68,15 @@ if have_gh; then
   echo "Downloading with gh from ${REPO}..."
   gh "${args[@]}"
 else
-  echo "gh is not logged in." >&2
-  echo "This repository is private. Install GitHub CLI and run: gh auth login" >&2
-  echo "Then add yourself (or the other person) as a collaborator on ${REPO}." >&2
-  echo "If the repo is later made public, curl from the Releases page also works." >&2
-  exit 1
+  if [ -n "$TAG" ]; then
+    base="https://github.com/${REPO}/releases/download/${TAG}"
+  else
+    base="https://github.com/${REPO}/releases/latest/download"
+  fi
+  echo "Downloading with curl from ${base} ..."
+  for f in "${names[@]}"; do
+    curl -fL --retry 5 -o "$f" "${base}/${f}"
+  done
 fi
 
 if [ -f SHA256SUMS ]; then
