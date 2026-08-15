@@ -1,0 +1,10 @@
+# /usr/share/live/build/lists/kde-full - package list for live-build(7)
+
+#include <kde>
+
+#if DISTRIBUTION lenny
+koffice
+#endif
+#if DISTRIBUTION squeeze wheezy sid
+kde-full
+#endif

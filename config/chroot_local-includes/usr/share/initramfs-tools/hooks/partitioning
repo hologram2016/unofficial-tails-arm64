@@ -1,0 +1,37 @@
+#!/bin/sh -e
+
+PREREQS=""
+
+prereqs() { echo "$PREREQS"; }
+
+case "$1" in
+prereqs)
+    prereqs
+    exit 0
+    ;;
+esac
+
+set -u
+
+. /usr/share/initramfs-tools/hook-functions
+
+if [ "$(dpkg --print-architecture)" = amd64 ]; then
+   GNU_TRIPLET="x86_64-linux-gnu"
+else
+   GNU_TRIPLET="aarch64-linux-gnu"
+fi
+
+copy_exec /sbin/sgdisk /sbin
+copy_exec /sbin/parted /sbin
+copy_exec /sbin/partprobe /sbin
+copy_exec /usr/sbin/fatresize /sbin
+copy_exec /usr/bin/mlabel /sbin
+copy_exec /sbin/fsck.fat /sbin
+
+# Needed by mlabel that uses iconv_open
+copy_exec "/usr/lib/${GNU_TRIPLET}/gconv/IBM850.so"
+copy_file "regular file" "/usr/lib/${GNU_TRIPLET}/gconv/gconv-modules"
+copy_file "regular file" "/usr/lib/${GNU_TRIPLET}/gconv/gconv-modules.d/gconv-modules-extra.conf"
+
+# Needed by partprobe
+copy_exec /usr/sbin/dmidecode /sbin

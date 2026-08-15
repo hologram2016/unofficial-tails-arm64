@@ -1,0 +1,81 @@
+[build-system]
+requires = [
+  # installation backend
+  "setuptools>=61.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chutney"
+version = "0.0.1"
+authors = [
+  { name="The Tor Project" },
+]
+description = "A tool for building local testing Tor networks"
+readme = "README.md"
+# Oldest tested version (default on debian bullseye).
+# May or may not work on older versions.
+requires-python = ">=3.9.2"
+# Strings from https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    # Mostly intended for internal use in the Tor Project, and quite unstable.
+    "Private :: Do Not Upload",
+]
+license = {file = "LICENSE"}
+dependencies = [
+  'cryptography~=3.4',
+  'paramiko~=4.0',
+  'typeguard==4.3.0',
+  'tomli-w~=1.2.0',
+]
+
+[project.urls]
+Homepage = "https://gitlab.torproject.org/tpo/core/chutney"
+Issues = "https://gitlab.torproject.org/tpo/core/chutney/-/issues/"
+
+[project.scripts]
+chutney = "chutney.TorNet:__main__"
+
+[tool.setuptools]
+# module root is under `lib` (instead of the default of `src`)
+package-dir = {"" = "lib"}
+
+[tool.setuptools.packages.find]
+# root of where to look for resource files.
+# Files must also be specified in MANIFEST.in to actually be included.
+where = ["lib"]
+
+[tool.mypy]
+# Start off with these
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
+# Getting these passing should be easy
+strict_equality = true
+extra_checks = true
+
+# Strongly recommend enabling this one as soon as you can
+check_untyped_defs = true
+
+# These shouldn't be too much additional work, but may be tricky to
+# get passing if you use a lot of untyped libraries
+disallow_subclassing_any = true
+disallow_untyped_decorators = true
+disallow_any_generics = true
+
+# These next few are various gradations of forcing use of type annotations
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+
+# This one isn't too hard to get passing, but return on investment is lower
+no_implicit_reexport = true
+
+# This one can be tricky to get passing if you use a lot of untyped libraries
+warn_return_any = true

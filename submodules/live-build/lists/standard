@@ -1,0 +1,7 @@
+# /usr/share/live/build/lists/standard - package list for live-build(7)
+
+#include <minimal>
+
+console-setup console-common kbd
+
+locales

@@ -1,0 +1,13 @@
+Index: tails/config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper
+===================================================================
+--- tails.orig/config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper
++++ tails/config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper
+@@ -56,6 +56,8 @@ def main(*args):
+ 
+     check_free_memory(MIN_AVAILABLE_MEMORY)
+ 
++    sys.exit(0)
++
+     # Go to a place where everyone, especially Archive::Tar::Wrapper called by
+     # tails-install-iuk, can chdir back after it has chdir'd elsewhere to do
+     # its job.
