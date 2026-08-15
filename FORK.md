@@ -22,6 +22,14 @@ History here is a **shallow snapshot** of that Asahi branch, not the full Tails 
 
 Host/guest scripts for the unofficial **VM image** live in [`builder/`](builder/README.md) (`arm64` branch + QEMU/HVF, not Asahi live USB).
 
+To **download a built ISO / `.img`** (you or anyone with repo access):
+
+```sh
+./builder/download-image.sh
+```
+
+See [DOWNLOAD.md](DOWNLOAD.md).
+
 ## Remotes
 
 ```text

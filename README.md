@@ -1,6 +1,9 @@
 > **Unofficial working fork.** This GitHub repository is **not** official Tails.
 > It is a private snapshot of NoisyCoil's Apple Silicon / Asahi port (`7.6.2/asahi`).
 > Do not use it as if it were an official Tails release. See [FORK.md](FORK.md).
+>
+> **Download the unofficial arm64 VM image:** [DOWNLOAD.md](DOWNLOAD.md)
+> (`./builder/download-image.sh`). Not a live USB for M-series Macs.
 
 ## About Tails
 
