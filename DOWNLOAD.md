@@ -1,15 +1,14 @@
-# Download the unofficial arm64 VM image
+# Downloads
 
-**Not official Tails.** This is an unofficial image for **QEMU / UTM on
-Apple Silicon**. It is **not** an amnesia live USB for M-series Macs, and
-it will not protect you the way official Tails does.
+Not official Tails. These files are for QEMU or UTM on Apple Silicon. They
+are not an amnesia live USB for M-series Macs.
 
-Official Tails: <https://tails.net/> (amd64 only).
+Official Tails (amd64): <https://tails.net/>.
 
-A download is just the ISO or `.img`. It does not include anyone’s home
-directory or builder paths.
+The ISO and `.img` are ordinary image files. They do not contain another
+machine’s home directory or builder paths.
 
-## curl (no GitHub login)
+## curl
 
 ```sh
 curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/unofficial-tails-arm64-7.6.2.iso
@@ -17,13 +16,13 @@ curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/late
 shasum -a 256 -c SHA256SUMS
 ```
 
-USB-style disk image (optional):
+Optional USB-style disk image:
 
 ```sh
 curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/unofficial-tails-arm64-7.6.2.img
 ```
 
-## Helper script
+## Helper
 
 ```sh
 git clone https://github.com/hologram2016/unofficial-tails-arm64.git
@@ -33,27 +32,27 @@ cd unofficial-tails-arm64
 ./builder/download-image.sh --both --dir "$HOME/Downloads"
 ```
 
-`gh release download -R hologram2016/unofficial-tails-arm64 --latest` also works if
-you have GitHub CLI.
+GitHub CLI:
 
-## What you get
+```sh
+gh release download -R hologram2016/unofficial-tails-arm64 --latest
+```
 
-| Asset | Use |
-|-------|-----|
-| `unofficial-tails-arm64-7.6.2.iso` | Attach as a CD in UTM / QEMU |
-| `unofficial-tails-arm64-7.6.2.img` | Attach as a virtio / USB disk |
-| `SHA256SUMS` | Check the download |
+| File | Use |
+|------|-----|
+| `unofficial-tails-arm64-7.6.2.iso` | CD in UTM or QEMU |
+| `unofficial-tails-arm64-7.6.2.img` | Virtio or USB disk |
+| `SHA256SUMS` | Checksums |
 
-GRUB **defaults to External Hard Disk** (no `live-media=removable`).
-Let the 4-second timeout run. The first menu line is still the official
-removable entry if you want it.
+GRUB defaults to External Hard Disk (`live-media=removable` is off). The
+timeout is four seconds. The first menu line is still the official removable
+entry.
 
 ## After download
 
-1. UTM → new VM → **ARM64** (Apple Virtualization or QEMU).
-2. Attach the ISO, or attach the `.img` as a disk. Do not attach the Mac’s internal disk.
-3. Boot. You should reach GDM. This will not brick the Mac.
-4. Do **not** `dd` the `.img` onto a stick expecting an M-series Mac to boot it.
+1. New ARM64 VM (Apple Virtualization or QEMU).
+2. Attach the ISO, or attach the `.img` as a disk. Do not attach the host internal disk.
+3. Boot; the guest should reach GDM.
+4. Do not write the `.img` to a stick expecting an M-series Mac to boot it.
 
-Builder scripts (rebuild from source) live in [`builder/`](builder/README.md).
-More background: [FORK.md](FORK.md).
+Rebuild scripts: [`builder/`](builder/README.md). Origin notes: [FORK.md](FORK.md).

@@ -1,18 +1,17 @@
 # Reconnect to the unofficial arm64 builder
 
-The job is meant to outlive this chat or an SSH drop.
-Set `TAILS_ARM64_WORK` to the host workdir (disks + `STATUS.txt` + logs).
+The build is meant to continue if the controlling session drops.
+`TAILS_ARM64_WORK` is the host workdir (disks, `STATUS.txt`, logs).
 
 ```sh
 export TAILS_ARM64_WORK="${TAILS_ARM64_WORK:-$HOME/tails-arm64-work}"
 
 cat "$TAILS_ARM64_WORK/STATUS.txt"
-
 tail -50 "$TAILS_ARM64_WORK/logs/setup.log"
 tail -50 "$TAILS_ARM64_WORK/logs/qemu-serial.log"
 ```
 
-SSH into the builder guest (after STATUS is `WAITING_SSH` or later):
+SSH into the builder guest once STATUS is `WAITING_SSH` or later:
 
 ```sh
 ssh -F /dev/null \
@@ -23,7 +22,7 @@ ssh -F /dev/null \
   -p 2222 tailsbuild@127.0.0.1
 ```
 
-Inside the guest:
+In the guest:
 
 ```sh
 tail -f ~/build.log
@@ -32,18 +31,18 @@ cat ~/STATUS.txt
 
 STATUS values: `PREPARING`, `WAITING_SSH`, `READY`, `BUILDING`, `COMPLETE`, `FAILED`.
 
-QEMU (not UTM) is the actual guest. `utmctl` / AppleScript cannot start VMs
-from this agent or an SSH session on this Mac.
+The builder guest is QEMU, not UTM. `utmctl` and AppleScript cannot start VMs
+from a non-GUI session on macOS.
 
 ```sh
 cat "$TAILS_ARM64_WORK/qemu.pid"
-builder/start-qemu.sh   # idempotent if already running
-builder/stop-builder.sh # graceful poweroff
+builder/start-qemu.sh    # idempotent if already running
+builder/stop-builder.sh  # guest poweroff
 ```
 
-ISO → USB `.img` (guest must already have a `tails-*.iso`):
+ISO to USB `.img` (a `tails-*.iso` must already exist in the guest):
 
 ```sh
-# STOP_BUILDER=0 leaves QEMU up afterwards
+# STOP_BUILDER=0 leaves QEMU running afterwards
 builder/create-usb-img.sh
 ```
