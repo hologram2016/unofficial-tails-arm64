@@ -38,6 +38,14 @@ from this agent or an SSH session on this Mac.
 ```sh
 cat "$TAILS_ASAHI_WORK/qemu.pid"
 builder/start-qemu.sh   # idempotent if already running
+builder/stop-builder.sh # graceful poweroff; does not touch Kali
+```
+
+ISO → USB `.img` (guest must already have a `tails-*.iso`):
+
+```sh
+# STOP_BUILDER=0 leaves QEMU up afterwards
+builder/create-usb-img.sh
 ```
 
 The existing Kali UTM VM is unrelated. Do not touch it.

@@ -23,6 +23,9 @@ only** (`pin-ikiwiki-forky.sh`). Do not skip the website.
 | `start-qemu.sh` | host | Headless `qemu-system-aarch64` + HVF |
 | `inside-vm-build.sh` | guest | `lb config` / `lb build`, resume hooks, DNS/IPv4 |
 | `retry-lb-build.sh` | host | Push guest script, resume detached build, re-arm ntfy |
+| `inside-vm-usb-img.sh` | guest | Official `create-usb-image-from-iso` (GPT + FAT; no syslinux on aarch64) |
+| `create-usb-img.sh` | host | Push converter, copy `tails-*.img` to `images/`, ntfy, optional stop |
+| `stop-builder.sh` | host | Graceful `poweroff` of the builder QEMU (leaves Kali UTM alone) |
 | `pin-ikiwiki-forky.sh` | guest (root) | Official Tails Forky pin for ikiwiki |
 | `notify-watch.sh` / `send-ntfy.sh` | host | One ntfy on COMPLETE or FAILED (topic from local env, never printed) |
 | `cloud-init/` | guest seed | `tailsbuild` user, sudo, packages |
