@@ -30,20 +30,28 @@ machine’s home directory or builder paths.
 
 ## Download
 
+Current release: [unofficial-7.6.2-arm64.1](https://github.com/hologram2016/unofficial-tails-arm64/releases/tag/unofficial-7.6.2-arm64.1)
+([all releases](https://github.com/hologram2016/unofficial-tails-arm64/releases)).
+
+| File | Size | SHA-256 |
+|------|------|---------|
+| [unofficial-tails-arm64-7.6.2.iso](https://github.com/hologram2016/unofficial-tails-arm64/releases/download/unofficial-7.6.2-arm64.1/unofficial-tails-arm64-7.6.2.iso) | 1.9 GB | `e196c31c30c2c6ce219f9be3ee593fd103a69e15cd08eeb74cca6ff050b2630a` |
+| [unofficial-tails-arm64-7.6.2.img](https://github.com/hologram2016/unofficial-tails-arm64/releases/download/unofficial-7.6.2-arm64.1/unofficial-tails-arm64-7.6.2.img) | 1.9 GB | `961b6a71f218642bc8340476eed4f4da99c88632c2f7ecea1fa2179b501265a7` |
+| [SHA256SUMS](https://github.com/hologram2016/unofficial-tails-arm64/releases/download/unofficial-7.6.2-arm64.1/SHA256SUMS) | | |
+
+ISO: CD in UTM or QEMU. `.img`: virtio or USB-style disk. Neither is an
+amnesia stick for M-series Macs.
+
+curl:
+
 ```sh
 curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/unofficial-tails-arm64-7.6.2.iso
 curl -fL -O https://github.com/hologram2016/unofficial-tails-arm64/releases/latest/download/SHA256SUMS
 shasum -a 256 -c SHA256SUMS
 ```
 
-```sh
-git clone https://github.com/hologram2016/unofficial-tails-arm64.git
-cd unofficial-tails-arm64
-./builder/download-image.sh            # ISO
-./builder/download-image.sh --img      # USB-style .img
-```
-
-Details: [DOWNLOAD.md](DOWNLOAD.md).
+Helper: `./builder/download-image.sh` (add `--img` or `--both`). More
+commands: [DOWNLOAD.md](DOWNLOAD.md).
 
 ## Boot (UTM or QEMU)
 

@@ -8,6 +8,19 @@ Official Tails (amd64): <https://tails.net/>.
 The ISO and `.img` are ordinary image files. They do not contain another
 machine’s home directory or builder paths.
 
+## Files
+
+Current release: [unofficial-7.6.2-arm64.1](https://github.com/hologram2016/unofficial-tails-arm64/releases/tag/unofficial-7.6.2-arm64.1)
+([all releases](https://github.com/hologram2016/unofficial-tails-arm64/releases)).
+
+| File | Size | SHA-256 |
+|------|------|---------|
+| [unofficial-tails-arm64-7.6.2.iso](https://github.com/hologram2016/unofficial-tails-arm64/releases/download/unofficial-7.6.2-arm64.1/unofficial-tails-arm64-7.6.2.iso) | 1.9 GB | `e196c31c30c2c6ce219f9be3ee593fd103a69e15cd08eeb74cca6ff050b2630a` |
+| [unofficial-tails-arm64-7.6.2.img](https://github.com/hologram2016/unofficial-tails-arm64/releases/download/unofficial-7.6.2-arm64.1/unofficial-tails-arm64-7.6.2.img) | 1.9 GB | `961b6a71f218642bc8340476eed4f4da99c88632c2f7ecea1fa2179b501265a7` |
+| [SHA256SUMS](https://github.com/hologram2016/unofficial-tails-arm64/releases/download/unofficial-7.6.2-arm64.1/SHA256SUMS) | | |
+
+ISO: CD in UTM or QEMU. `.img`: virtio or USB-style disk.
+
 ## curl
 
 ```sh
@@ -37,12 +50,6 @@ GitHub CLI:
 ```sh
 gh release download -R hologram2016/unofficial-tails-arm64 --latest
 ```
-
-| File | Use |
-|------|-----|
-| `unofficial-tails-arm64-7.6.2.iso` | CD in UTM or QEMU |
-| `unofficial-tails-arm64-7.6.2.img` | Virtio or USB disk |
-| `SHA256SUMS` | Checksums |
 
 GRUB defaults to External Hard Disk (`live-media=removable` is off). The
 timeout is four seconds. The first menu line is still the official removable
