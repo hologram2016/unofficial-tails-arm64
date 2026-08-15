@@ -1,0 +1,73 @@
+#cloud-config
+hostname: tails-builder
+fqdn: tails-builder.local
+manage_etc_hosts: true
+ssh_pwauth: false
+disable_root: true
+
+users:
+  - name: tailsbuild
+    gecos: Tails builder
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: [sudo]
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMB9q2sTFox4E+PWWwDsBVFGXG3dd0qQ+W2juUwx1vtH tails-builder-utm
+
+package_update: true
+package_upgrade: false
+packages:
+  - apt-utils
+  - build-essential
+  - ca-certificates
+  - cpio
+  - curl
+  - debootstrap
+  - dpkg-dev
+  - eatmydata
+  - fakeroot
+  - faketime
+  - gettext
+  - git
+  - gnupg
+  - gzip
+  - jq
+  - kmod
+  - make
+  - python3
+  - python3-yaml
+  - rake
+  - rsync
+  - squashfs-tools
+  - sudo
+  - time
+  - wget
+  - xorriso
+  - xz-utils
+
+swap:
+  filename: /swapfile
+  size: 4294967296
+  maxsize: 4294967296
+
+write_files:
+  - path: /etc/motd
+    permissions: "0644"
+    content: |
+      tails-builder — unofficial Tails arm64 image builder
+      Build log: ~/build.log    Status: ~/STATUS.txt
+  - path: /usr/local/bin/tails-builder-mark-ready
+    permissions: "0755"
+    content: |
+      #!/bin/sh
+      mkdir -p /var/lib/tails-builder
+      date --utc > /var/lib/tails-builder/cloud-init-done
+      chmod 644 /var/lib/tails-builder/cloud-init-done
+
+runcmd:
+  - [mkdir, -p, /mnt/work]
+  - [mkdir, -p, /home/tailsbuild]
+  - [chown, tailsbuild:tailsbuild, /home/tailsbuild]
+  - [sudo, -u, tailsbuild, bash, -lc, "echo 'WAIT_SOURCE' > /home/tailsbuild/STATUS.txt"]
+  - [/usr/local/bin/tails-builder-mark-ready]

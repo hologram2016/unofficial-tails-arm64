@@ -20,6 +20,8 @@ of the [Tails](https://tails.net/) source tree.
 
 History here is a **shallow snapshot** of that Asahi branch, not the full Tails git history.
 
+Host/guest scripts for the unofficial **VM image** live in [`builder/`](builder/README.md) (`arm64` branch + QEMU/HVF, not Asahi live USB).
+
 ## Remotes
 
 ```text
