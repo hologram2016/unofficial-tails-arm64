@@ -54,7 +54,10 @@ download_and_verify_files() {
             cd "${destination}"
             echo "Fetching ${base_url}/${tarball} ..."
             # Bypass the /usr/local/bin/curl wrapper
-            /usr/bin/curl --retry 20 --remote-name "${base_url}/${tarball}"
+            # GitLab release /downloads/ URLs 302 to job artifacts.
+            # Without --location curl saves the tiny redirect body and the
+            # SHA256 check fails.
+            /usr/bin/curl --fail --location --retry 20 --remote-name "${base_url}/${tarball}"
         )
         actual_sha256="$(sha256sum "${destination}/${tarball}" | cut -d' ' -f1)"
         if [ "${actual_sha256}" != "${expected_sha256}" ]; then
