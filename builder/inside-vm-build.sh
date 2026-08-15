@@ -202,13 +202,27 @@ fi
 restore_parked_hooks
 HOOK_PARK=""
 
-if compgen -G "tails-*.img" >/dev/null; then
+# auto/build normally renames binary.iso and builds the USB image.
+# We use `lb build noauto` on resume, so do the arm64-safe tail here.
+# isohybrid is amd64-only; USB .img needs udisks and is a later step.
+if [ -f binary.iso ] && ! compgen -G "tails-*.iso" >/dev/null; then
+  if [ -f tmp/build_environment ]; then
+    # shellcheck disable=SC1091
+    . tmp/build_environment
+  fi
+  iso_name="${BUILD_BASENAME:-tails-arm64-unsigned}.iso"
+  sudo truncate -s %2048 binary.iso
+  sudo mv -f binary.iso "$iso_name"
+  [ -f binary.packages ] && sudo mv -f binary.packages "${iso_name%.iso}.packages"
+fi
+
+if compgen -G "tails-*.img" >/dev/null || compgen -G "tails-*.iso" >/dev/null; then
   mkdir -p /mnt/work/images 2>/dev/null || true
   cp -n tails-*.img tails-*.iso /mnt/work/images/ 2>/dev/null || true
-  ls -lh tails-* | tee -a "$LOG"
-  say "COMPLETE $(date --utc '+%Y-%m-%dT%H:%MZ') image built"
+  ls -lh tails-*.iso tails-*.img tails-*.packages 2>/dev/null | tee -a "$LOG"
+  say "COMPLETE $(date --utc '+%Y-%m-%dT%H:%MZ') unofficial image built (not official Tails)"
   exit 0
 fi
 
-say "FAILED $(date --utc '+%Y-%m-%dT%H:%MZ') lb build finished with no tails-*.img"
+say "FAILED $(date --utc '+%Y-%m-%dT%H:%MZ') lb build finished with no tails-*.iso or tails-*.img"
 exit 1
