@@ -67,13 +67,18 @@ else
 fi
 rm -f "$notes"
 
-upload=(
-  "${iso}#tails-asahi-unofficial-7.6.2-arm64.iso"
-  "${sums}#SHA256SUMS"
-)
+# Copy to short names in a temp dir. `file#name` breaks when WORK
+# contains spaces (Crucial X10).
+stage="$(mktemp -d)"
+cleanup_stage() { rm -rf "$stage"; }
+trap cleanup_stage EXIT
+ln "$iso" "${stage}/tails-asahi-unofficial-7.6.2-arm64.iso" 2>/dev/null || \
+  cp "$iso" "${stage}/tails-asahi-unofficial-7.6.2-arm64.iso"
+cp "$sums" "${stage}/SHA256SUMS"
 if [ -n "${img}" ]; then
-  upload+=("${img}#tails-asahi-unofficial-7.6.2-arm64.img")
+  ln "$img" "${stage}/tails-asahi-unofficial-7.6.2-arm64.img" 2>/dev/null || \
+    cp "$img" "${stage}/tails-asahi-unofficial-7.6.2-arm64.img"
 fi
-gh release upload "$TAG" -R "$REPO" --clobber "${upload[@]}"
+gh release upload "$TAG" -R "$REPO" --clobber "${stage}"/*
 
 echo "published ${TAG} on ${REPO}"
